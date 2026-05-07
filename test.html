@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Supabase Auth Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body style="background:#111;color:#fff;font-family:Arial;padding:40px;max-width:400px;margin:auto">
+  <h2 style="color:#34d399">Auth Test</h2>
+  <input id="email" placeholder="Email" style="width:100%;padding:10px;margin-bottom:10px;background:#222;color:#fff;border:1px solid #444;border-radius:8px"><br>
+  <input id="password" type="password" placeholder="Password" style="width:100%;padding:10px;margin-bottom:10px;background:#222;color:#fff;border:1px solid #444;border-radius:8px"><br>
+  <button onclick="signup()" style="width:100%;padding:10px;background:#34d399;border:none;border-radius:8px;font-weight:bold;margin-bottom:8px">Sign Up</button>
+  <button onclick="login()" style="width:100%;padding:10px;background:#3b82f6;color:#fff;border:none;border-radius:8px;font-weight:bold">Login</button>
+  <p id="msg" style="margin-top:16px"></p>
+
+  <script>
+    const supabase = window.supabase.createClient(
+      'YOUR_SUPABASE_URL',
+      'YOUR_ANON_KEY'
+    )
+
+    async function signup() {
+      const email = document.getElementById('email').value
+      const password = document.getElementById('password').value
+      const { error } = await supabase.auth.signUp({ email, password })
+      document.getElementById('msg').innerText = error ? error.message : '✅ Check your email!'
+    }
+
+    async function login() {
+      const email = document.getElementById('email').value
+      const password = document.getElementById('password').value
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      document.getElementById('msg').innerText = error ? error.message : '✅ Logged in!'
+    }
+  </script>
+</body>
+</html>
